@@ -68,12 +68,15 @@ def synthesize_report(state: ResearchState) -> ResearchState:
     )
 
     """
+ 
     llm = ChatOllama(
     model="llama3.2",
-    base_url="https://ngrok-free.dev",  # Use your exact active URL
+    # Ensure there is NO trailing slash at the end of your Ngrok URL string
+    base_url="https://ngrok-free.dev", 
     client_kwargs={
         "headers": {
-            "ngrok-skip-browser-warning": "true"
+            "ngrok-skip-browser-warning": "true",
+            "Content-Type": "application/json"
         }
     }
 )
