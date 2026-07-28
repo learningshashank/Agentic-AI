@@ -11,6 +11,7 @@ Usage:
 
 import argparse
 import os
+import streamlit as st
 from typing import Annotated, TypedDict
 
 from dotenv import load_dotenv
@@ -21,7 +22,7 @@ from langgraph.graph import END, StateGraph
 from langgraph.graph.message import add_messages
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import ChatOllama
-
+from langchain_community.llms import ollama
 
 load_dotenv()
 
@@ -67,7 +68,7 @@ def synthesize_report(state: ResearchState) -> ResearchState:
         google_api_key=os.getenv("GEMINI_API_KEY")
     )
 
-    """
+   
  
     llm = ChatOllama(
     model="llama3.2",
@@ -80,6 +81,13 @@ def synthesize_report(state: ResearchState) -> ResearchState:
         }
     }
 )
+   """
+    llm = Ollama(
+    model="llama3.2",
+    # Paste your public VS Code Forwarded Address here
+    base_url="https://github.dev" 
+)
+
 
 
     results_text = "\n\n".join(
