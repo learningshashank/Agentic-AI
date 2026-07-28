@@ -19,6 +19,9 @@ from langchain_openai import ChatOpenAI
 from langchain_tavily import TavilySearch
 from langgraph.graph import END, StateGraph
 from langgraph.graph.message import add_messages
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_ollama import ChatOllama
+
 
 load_dotenv()
 
@@ -43,7 +46,33 @@ def search_web(state: ResearchState) -> ResearchState:
 
 
 def synthesize_report(state: ResearchState) -> ResearchState:
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    """
+   # llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    
+    llm = ChatOpenAI(
+    openai_api_base="https://openrouter./api/v1",
+    openai_api_key=os.getenv("OPENROUTER_API_KEY"),
+    model="meta-llama/llama-3.1-8b-instruct:free",
+    temperature=0,
+    default_headers={
+        "HTTP-Referer": "http://localhost:3000",
+        "X-Title": "Web Research Agent"
+
+    }
+)
+    
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.0-flash",
+        temperature=0,
+        google_api_key=os.getenv("GEMINI_API_KEY")
+    )
+
+    """
+    llm = ChatOllama(
+        model="llama3.2",
+        temperature=0
+    )
+
 
     results_text = "\n\n".join(
         f"Source: {r.get('url', 'N/A')}\nTitle: {r.get('title', 'N/A')}\nContent: {r.get('content', '')[:500]}"
@@ -74,7 +103,7 @@ def main():
     parser.add_argument("--query", default="latest advances in AI agents 2024", help="Research query")
     args = parser.parse_args()
 
-    print(f"\n🔍 Researching: {args.query}\n")
+    print(f"\n[search] Researching: {args.query}\n")
 
     agent = build_graph()
     result = agent.invoke({"query": args.query, "messages": [], "search_results": [], "report": ""})
