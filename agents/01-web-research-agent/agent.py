@@ -70,7 +70,8 @@ def synthesize_report(state: ResearchState) -> ResearchState:
     """
     llm = ChatOllama(
         model="llama3.2",
-        temperature=0
+        temperature=0,
+        base_url="https://ngrok-free.app"
     )
 
 
