@@ -23,6 +23,7 @@ from langgraph.graph.message import add_messages
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import ChatOllama
 from langchain_community.llms import ollama
+from langchain_ollama import ChatOllama
 
 load_dotenv()
 
