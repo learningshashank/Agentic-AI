@@ -69,10 +69,14 @@ def synthesize_report(state: ResearchState) -> ResearchState:
 
     """
     llm = ChatOllama(
-        model="llama3.2",
-        temperature=0,
-        base_url="https://ngrok-free.app"
-    )
+    model="llama3.2",
+    base_url="https://ngrok-free.dev",  # Use your exact active URL
+    client_kwargs={
+        "headers": {
+            "ngrok-skip-browser-warning": "true"
+        }
+    }
+)
 
 
     results_text = "\n\n".join(
